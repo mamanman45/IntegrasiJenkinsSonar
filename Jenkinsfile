@@ -22,15 +22,15 @@ pipeline {
     post {
         success {
             script{
-                 withCredentials([string(credentialsId: 'token-bot-tele', variable: 'TOKEN'), string(credentialsId: 'id-tele', variable: 'CHAT_ID')]) {
-                    bat ' curl -s -X POST https://api.telegram.org/bot"$TOKEN"/sendMessage -d chat_id="$CHAT_ID" -d text="Build ${JOB_NAME}: Success" '
+                 withCredentials([string(credentialsId: 'telegram-token', variable: 'TOKEN'), string(credentialsId: 'telegram-chat-id', variable: 'CHAT_ID')]) {
+                    bat ''' curl -s -X POST https://api.telegram.org/bot"%TOKEN%"/sendMessage -d chat_id="%CHAT_ID%" -d text="%TEXT_SUCCESS_BUILD%" '''
                  }
             }
         }
         failure {
             script{
-                withCredentials([string(credentialsId: 'token-bot-tele', variable: 'TOKEN'), string(credentialsId: 'id-tele', variable: 'CHAT_ID')]) {
-                    bat ' curl -s -X POST https://api.telegram.org/bot"$TOKEN"/sendMessage -d chat_id="$CHAT_ID" -d text="Build ${JOB_NAME}: Failed" '
+                withCredentials([string(credentialsId: 'telegram-token', variable: 'TOKEN'), string(credentialsId: 'telegram-chat-id', variable: 'CHAT_ID')]) {
+                    bat ''' curl -s -X POST https://api.telegram.org/bot"%TOKEN%"/sendMessage -d chat_id="%CHAT_ID%" -d text="%TEXT_FAILURE_BUILD%" '''
                 }
             }
         }
